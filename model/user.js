@@ -39,6 +39,8 @@ userSchema.methods.comparePasswordHash = function(password) {
     bcrypt.compare(password, this.password, (err, valid) => {
       if(err) return reject(createError(401, 'Password validation failed'));
       if(!valid) return reject(createError(401, 'Wrong password'));
+
+      resolve(this);
     });
   });
 };
@@ -51,13 +53,14 @@ userSchema.methods.generateFindHash = function() {
     let _generateFindHash = () => {
       this.findhash = crypto.randomBytes(32).toString('hex');
       this.save()
-      .then(() => resolve (this.findhash))
+      .then(() => resolve(this.findhash))
       .catch(err => {
         if(tries > 3) return reject(createError(err.status, 'generateFindHash failed'));
         tries++;
         _generateFindHash();
       });
     };
+    _generateFindHash();
   });
 };
 
