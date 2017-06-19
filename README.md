@@ -1,7 +1,5 @@
-# ltg-be
-Looking To Game Backend
+# Looking To Game Backend
 
-[![Build Status](https://travis-ci.org/slugbyte/slugram-backend.svg?branch=stageing)](https://travis-ci.org/slugbyte/slugram-backend)
-[![Coverage Status](https://coveralls.io/repos/github/slugbyte/slugram-backend/badge.svg?branch=stageing)](https://coveralls.io/github/slugbyte/slugram-backend?branch=stageing)
+[![Build Status](https://travis-ci.org/Looking-To-Game/ltg-be.svg?branch=dev)](https://travis-ci.org/Looking-To-Game/ltg-be)
 
-Source: [https://github.com/slugbyte/slugram-backend](https://github.com/slugbyte/slugram-backend)
+[![Coverage Status](https://coveralls.io/repos/github/Looking-To-Game/ltg-be/badge.svg?branch=master)](https://coveralls.io/github/Looking-To-Game/ltg-be?branch=master)
