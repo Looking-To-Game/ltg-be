@@ -8,6 +8,7 @@ const Promise = require('bluebird');
 const errorHandler = require('./lib/error-middleware.js');
 const bodyParser = require('body-parser').json();
 const mongoose = require('mongoose');
+const authRoutes = require('./router/auth-routes.js');
 
 const app = module.exports = express();
 const router = express.Router();
@@ -20,6 +21,6 @@ mongoose.connect(MONGODB_URI);
 app.use(errorHandler);
 app.use(cors());
 app.use(bodyParser);
-app.use('/api', require('./router/auth-routes.js')(router));
+app.use('/api', authRoutes(router));
 
 app.listen(PORT, () => console.log(`Hosted on localhost:${PORT}`));

@@ -21,6 +21,17 @@ const userSchema = Schema({
   psn: {type: String},
 });
 
+userSchema.methods.generatePasswordHash = function(password) {
+  debug('#generatePasswordHash');
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, 10, (err, hash) => {
+      if(err) return reject(createError(401, 'Password hashing failed'));
+      this.password = hash;
+      resolve(this);
+    });
+  });
+};
+
 userSchema.methods.comparePasswordHash = function(password) {
   debug('#comparePasswordHash');
 
