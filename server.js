@@ -13,7 +13,7 @@ const authRoutes = require('./router/auth-routes.js');
 const app = module.exports = express();
 const router = express.Router();
 const PORT = process.env.PORT || 8080;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/lfg-dev';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/ltg-dev';
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);

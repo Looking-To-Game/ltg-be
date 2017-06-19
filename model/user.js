@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
-const debug = require('debug')('lfg:user-model');
+const debug = require('debug')('ltg:user-model');
 
 const Schema = mongoose.Schema;
 

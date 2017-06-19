@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('lfg:auth-routes');
+const debug = require('debug')('ltg:auth-routes');
 const basicAuth = require('../lib/basic-auth-middleware');
 const User = require('../model/user.js');
 const UserCtrl = require('../controllers/auth-controller.js');

@@ -1,14 +1,14 @@
 'use strict';
 
 const User = require('../model/user.js');
-const debug = require('debug')('lfg:auth-controller');
+const debug = require('debug')('ltg:auth-controller');
 
 module.exports = exports = {};
 
 exports.signup = function(user, password) {
   debug('#Signup');
 
-  return User.generatePasswordHash(password)
+  return user.generatePasswordHash(password)
   .then(user => user.save())
   .then(user => user.generateToken())
   .catch(err => err);

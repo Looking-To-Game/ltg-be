@@ -26,24 +26,22 @@ describe('Auth Routes', function() {
       .catch(done);
     });
 
-    it('should return a token', done => {
+    before(done => {
       request.post(`${url}/api/signup`)
       .send(exampleUser)
       .end((err, res) => {
-        if(err) return done(err);
-        expect(res.text).to.be.a('string');
+        this.res = res;
         done();
       });
     });
 
-    it('should return a status 200', done => {
-      request.post(`${url}/api/signup`)
-      .send(exampleUser)
-      .end((err, res) => {
-        if(err) return done(err);
-        expect(res.status).to.equal(200);
-        done();
-      });
+    it('should return a token', () => {
+      console.log(this.res.text);
+      expect(this.res.text).to.be.a('');
+    });
+
+    it('should return a status 200', () => {
+      expect(this.res.status).to.equal(200);
     });
   });
 
