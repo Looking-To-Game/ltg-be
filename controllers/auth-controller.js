@@ -1,24 +1,36 @@
 'use strict';
 
+const createError = require('http-errors');
+const Promise = require('bluebird');
 const User = require('../model/user.js');
-const debug = require('debug')('ltg:auth-controller');
 
 module.exports = exports = {};
 
-exports.signup = function(user, password) {
-  debug('#Signup');
+exports.signup = function(req) {
+  if(!req.body.password) return Promise.reject(createError(400, 'Invalid password'));
 
-  return user.generatePasswordHash(password)
+  let tempPassword = null;
+  tempPassword = req.body.password;
+  req.body.password = null;
+  delete req.body.password;
+
+  let newUser = new User(req.body);
+
+  return newUser.generatePasswordHash(tempPassword)
   .then(user => user.save())
-  .then(user => user.generateToken())
-  .catch(err => err);
+  .then(user => {
+    return user.generateToken();
+  });
 };
 
-exports.signin = function(username, password) {
-  debug('#Signin');
+exports.signin = function(req) {
+  if(!req.auth.username) return Promise.reject(createError(400, 'Invalid username'));
 
-  return User.findOne({username: username})
-  .then(user => user.comparePasswordHash(password))
+  if(!req.auth.password) return Promise.reject(createError(400, 'Invalid password'));
+
+  return User.findOne({username: req.auth.username})
+  .then(user => user.comparePasswordHash(req.auth.password))
   .then(user => user.generateToken())
-  .catch(err => err);
+  .then(token => token)
+  .catch(err => createError(404, err.message));
 };

@@ -39,6 +39,8 @@ userSchema.methods.comparePasswordHash = function(password) {
     bcrypt.compare(password, this.password, (err, valid) => {
       if(err) return reject(createError(401, 'Password validation failed'));
       if(!valid) return reject(createError(401, 'Wrong password'));
+
+      resolve(this);
     });
   });
 };
@@ -58,6 +60,7 @@ userSchema.methods.generateFindHash = function() {
         _generateFindHash();
       });
     };
+    _generateFindHash();
   });
 };
 
