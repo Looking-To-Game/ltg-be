@@ -106,14 +106,31 @@ describe('Group Routes', function () {
       });
     });
     describe('Get /api/group/:_id', function () {
-      chai.require(server)
-      .get('/api/group/:_id')
-      .set({
-        Authorization: `Bearer ${userToken}`,
-      })
-      .end((err, res) => {
-        if(err) return done(err);
-      })
+      before(done => {
+        chai.require(server)
+        .get('/api/group/:_id')
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          this.res = res;
+          done();
+        });
+      });
+      it('should return a status code of 200', done => {
+        expect(this.res.status).to.equal(200);
+        done();
+      });
+      it('should return an object', done => {
+        expect(this.res.body).to.be.an('object');
+        done();
+      });
+      it('should return an id', done => {
+        expect(this.res.body._id).to.exist;
+        done();
+      });
     });
   });
+  describe('PUT ')
 });
