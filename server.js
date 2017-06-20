@@ -29,6 +29,6 @@ app.use('/api', require('./router/auth-routes')(router));
 // app.use('/api', require('./routes/pic-routes')(router));
 // app.use(require('./routes/base-routes')(router));
 
-const server = module.exports = app.listen(PORT, () => debug(`Listening on ${PORT}`));
+const server = module.exports = app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 server.isRunning = true;

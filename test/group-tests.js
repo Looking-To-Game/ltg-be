@@ -31,6 +31,7 @@ const group = {
 };
 
 let userToken;
+let id;
 
 mongoose.Promise = Promise;
 
@@ -100,6 +101,7 @@ describe('Group Routes', function () {
         })
         .end((err, res) => {
           if(err) return done(err);
+          id = res.body._id;
           expect(res.body._id).to.exist;
           done();
         });
@@ -107,8 +109,8 @@ describe('Group Routes', function () {
     });
     describe('Get /api/group/:_id', function () {
       before(done => {
-        chai.require(server)
-        .get('/api/group/:_id')
+        chai.request(server)
+        .get(`/api/group/${id}`)
         .set({
           Authorization: `Bearer ${userToken}`,
         })
@@ -132,5 +134,34 @@ describe('Group Routes', function () {
       });
     });
   });
-  describe('PUT ')
+  describe('PUT /api/group/:_id/update', function (){
+    before(done => {
+      chai.request(server)
+      .put(`/api/group/${id}/update`)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .send({
+        title: 'Destiny 2',
+        description: 'Need competitve players for awesomeness',
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        this.res = res;
+        done();
+      });
+    });
+    it('should keep it\'s id', done => {
+      expect(this.res.body._id).to.equal(id);
+      done();
+    });
+    it('should have a new title', done => {
+      expect(this.res.body.title).to.equal('Destiny 2');
+      done();
+    });
+    it('should have a status code of 200', done => {
+      expect(this.res.status).to.equal(200);
+      done();
+    });
+  });
 });
