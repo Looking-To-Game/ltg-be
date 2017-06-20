@@ -131,7 +131,7 @@ describe('Group Routes', function () {
       });
     });
   });
-  describe('PUT /api/group/:_id/update', function (){
+  describe('PUT /api/group/:id/update', function (){
     before(done => {
       chai.request(server)
       .put(`/api/group/${id}/update`)
@@ -161,7 +161,7 @@ describe('Group Routes', function () {
       done();
     });
   });
-  describe('DELETE /api/group/:_id/delete', function () {
+  describe('DELETE /api/group/:id/delete', function () {
     before(done => {
       chai.request(server)
       .delete(`/api/group/${id}/delete`)
