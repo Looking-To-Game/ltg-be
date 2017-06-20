@@ -1,83 +1,92 @@
 'use strict';
 
-const expect = require('chai').expect;
-const Promise = require('bluebird');
+const chai = require('chai');
+const expect = chai.expect;
 const mongoose = require('mongoose');
-const request = require('superagent');
+const http = require('chai-http');
+const Promise = require('bluebird');
+
 const User = require('../model/user.js');
+
+const server = require('../server.js');
+chai.use(http);
+
+const user = {
+  username: 'testy',
+  password: 'abc123',
+  email: 'fake@fake.com',
+};
 
 mongoose.Promise = Promise;
 
-require('../server.js');
+describe('User auth routes', function() {
+  afterEach(done => {
+    Promise.all([
+      User.remove({}),
+    ])
+    .then(() => done())
+    .catch(() => done());
+  });
 
-const url = `http://localhost:${process.env.PORT}`;
-
-const exampleUser = {
-  username: 'GamerX7',
-  password: 'totallysecret1234',
-  email: 'totallyreal@email.com',
-};
-
-describe('Auth Routes', function() {
-  describe('POST: /api/signup', function() {
-    after(done => {
-      User.remove({})
-      .then(() => done())
-      .catch(done);
-    });
-
-    before(done => {
-      request.post(`${url}/api/signup`)
-      .send(exampleUser)
+  describe('Unregistered route', function() {
+    it('should throw a 404 error', done => {
+      chai.request(server)
+      .post('/api')
+      .send(user)
       .end((err, res) => {
-        this.res = res;
+        expect(res.status).to.equal(404);
         done();
       });
     });
-
-    it('should return a token', () => {
-      console.log(this.res.text);
-      expect(this.res.text).to.be.a('');
-    });
-
-    it('should return a status 200', () => {
-      expect(this.res.status).to.equal(200);
-    });
   });
 
-  describe('GET: /api/signin', function() {
-    before(done => {
-      let user = new User(exampleUser);
-      user.generatePasswordHash(exampleUser.password)
-      .then(user => user.save())
-      .then(user => {
-        this.tempUser = user;
-        done();
-      })
-      .catch(done);
-    });
-    after(done => {
-      User.remove({})
-      .then(() => done())
-      .catch(done);
-    });
-
-    it('should return a 200 status', done => {
-      request.get(`${url}/api/signin`)
-      .auth(exampleUser.username, exampleUser.password)
+  describe('POST tests', function() {
+    it('should create a new user', done => {
+      chai.request(server)
+      .post('/api/signup')
+      .send(user)
       .end((err, res) => {
-        if(err) return done(err);
         expect(res.status).to.equal(200);
         done();
       });
     });
 
-    it('should return a token', done => {
-      request.get(`${url}/api/signin`)
-      .auth(exampleUser.username, exampleUser.password)
+    it('should throw a 400 error if given no body', done => {
+      chai.request(server)
+      .post('/api/signup')
+      .send('')
       .end((err, res) => {
-        if(err) return done(err);
+        expect(res.status).to.equal(400);
+        done();
+      });
+    });
+  });
+
+  describe('GET tests', function() {
+    before(done => {
+      chai.request(server)
+      .post('/api/signup')
+      .send(user)
+      .end(() => done());
+    });
+
+
+    it('should return the user if given the correct credentials', done => {
+      chai.request(server)
+      .get('/api/signin')
+      .auth(user.username, user.password)
+      .end((err, res) => {
         expect(res.text).to.be.a('string');
+        done();
+      });
+    });
+
+    it('should return the user if given the correct credentials', done => {
+      chai.request(server)
+      .get('/api/signin')
+      .auth('')
+      .end((err, res) => {
+        expect(res.status).to.equal(401);
         done();
       });
     });
