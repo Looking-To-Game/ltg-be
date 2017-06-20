@@ -164,4 +164,26 @@ describe('Group Routes', function () {
       done();
     });
   });
+  describe('DELETE /api/group/:_id/delete', function () {
+    before(done => {
+      chai.request(server)
+      .delete(`/api/group/${id}/delete`)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        this.res = res;
+        done();
+      }) ;
+    });
+    it('should return status code 204', done => {
+      expect(this.res.status).to.equal(204);
+      done();
+    });
+    it('should not have a content', done => {
+      expect(this.res.body).to.not.exist;
+      done();
+    });
+  });
 });
