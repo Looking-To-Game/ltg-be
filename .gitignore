@@ -1,3 +1,10 @@
+db
+.env
+data/*
+coverage
+html-report
+node_modules/*
+
 # Created by https://www.gitignore.io/api/osx,linux,node,vim
 
 ### OSX ###

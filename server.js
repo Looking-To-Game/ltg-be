@@ -2,25 +2,33 @@
 
 require('dotenv').load();
 
-const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
+const express = require('express');
 const Promise = require('bluebird');
-const errorHandler = require('./lib/error-middleware.js');
-const bodyParser = require('body-parser').json();
 const mongoose = require('mongoose');
-const authRoutes = require('./router/auth-routes.js');
+const bodyParser = require('body-parser').json();
+const debug = require('debug')('cfgram:server');
 
-const app = module.exports = express();
-const router = express.Router();
-const PORT = process.env.PORT || 8080;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/ltg-dev';
+const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT;
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
-app.use(errorHandler);
+const app = express();
+const router = express.Router();
+
+app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser);
-app.use('/api', authRoutes(router));
+app.use(require('./lib/error-middleware'));
 
-app.listen(PORT, () => console.log(`Hosted on localhost:${PORT}`));
+app.use('/api', require('./router/auth-routes')(router));
+// app.use('/api', require('./routes/gallery-routes')(router));
+// app.use('/api', require('./routes/pic-routes')(router));
+// app.use(require('./routes/base-routes')(router));
+
+const server = module.exports = app.listen(PORT, () => debug(`Listening on ${PORT}`));
+
+server.isRunning = true;
