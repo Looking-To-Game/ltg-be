@@ -107,13 +107,10 @@ describe('Group Routes', function () {
         });
       });
     });
-    describe('Get /api/group/:_id', function () {
+    describe('Get /api/group/:id', function () {
       before(done => {
         chai.request(server)
         .get(`/api/group/${id}`)
-        .set({
-          Authorization: `Bearer ${userToken}`,
-        })
         .end((err, res) => {
           if(err) return done(err);
           this.res = res;
