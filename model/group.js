@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const groupSchema = Schema({
   title: {type: String, required: true},
   description: {type: String, required: true},
-  host: {type: String, required: true, ref: 'user'},
+  host: {type: String, required: true},
   game: {type: String, required: true},
   platform: {type: String, required: true},
   skillLevel: {type: String},

@@ -11,8 +11,6 @@ exports.create = function(req) {
   debug('#create');
 
   if(!req.body) return Promise.reject(createError(400, 'Content required'));
-
-  req.body.host = req.user.username;
   return new Group(req.body).save();
 };
 
@@ -21,10 +19,10 @@ exports.getOne = function(req) {
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
 
-  Group.findById(req.params.id)
+  return Group.findById(req.params.id)
   .then(group => {
     if(group._id.toString() !== req.params.id) return createError(400, 'Invalid group');
-    return group;
+    return group.save();
   });
 };
 
@@ -33,7 +31,7 @@ exports.update = function(req) {
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
 
-  Group.findByIdAndUpdate(req.params.id, {$set: {
+  return Group.findByIdAndUpdate(req.params.id, {$set: {
     title: req.body.title,
     description: req.body.description,
     game: req.body.game,
@@ -43,7 +41,7 @@ exports.update = function(req) {
     groupSize: req.body.groupSize,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
-  }}).save()
+  }})
   .catch(err => err);
 };
 
@@ -52,5 +50,5 @@ exports.remove = function(req) {
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
 
-  Group.remove({id: req.params.id});
+  return Group.remove({id: req.params.id});
 };
