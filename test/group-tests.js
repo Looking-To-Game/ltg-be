@@ -165,10 +165,11 @@ describe('Group Routes', function () {
       });
     });
     it('should keep it\'s id', done => {
-      expect(this.res.body._id).to.equal(id);
+      expect(this.res._id).to.equal(id);
       done();
     });
     it('should have a new title', done => {
+      console.log(this.res.body.title);
       expect(this.res.body.title).to.equal('Destiny 2');
       done();
     });
