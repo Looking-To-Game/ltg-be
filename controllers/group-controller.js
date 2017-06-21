@@ -10,6 +10,8 @@ module.exports = exports = {};
 exports.create = function(req) {
   debug('#create');
 
+  req.body.host = req.user.username;
+
   if(!req.body) return Promise.reject(createError(400, 'Content required'));
   return new Group(req.body).save();
 };
@@ -23,6 +25,15 @@ exports.getOne = function(req) {
   .then(group => {
     if(group._id.toString() !== req.params.id) return createError(400, 'Invalid group');
     return group.save();
+  });
+};
+
+exports.getAll = function() {
+  debug('#getAll');
+
+  return Group.find()
+  .then(feed => {
+    return feed;
   });
 };
 

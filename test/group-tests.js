@@ -7,6 +7,7 @@ const http = require('chai-http');
 const Promise = require('bluebird');
 
 const User = require('../model/user');
+const Group = require('../model/group');
 
 const server = require('../server.js');
 chai.use(http);
@@ -20,7 +21,6 @@ const user = {
 const group = {
   title: 'Halo 15',
   description: 'longest running video game of all time',
-  host: 'testy',
   game: 'Halo 5',
   platform: 'Xbox',
   skillLevel: 'Death',
@@ -32,7 +32,6 @@ const group = {
 const test = {
   title: 'Halo 10',
   description: 'longest running video game of all time oh no',
-  host: 'testy',
   game: 'Halo 5',
   platform: 'Xbox',
   skillLevel: 'Death',
@@ -61,6 +60,7 @@ describe('Group Routes', function () {
   after(done => {
     Promise.all([
       User.remove({}),
+      Group.remove({}),
     ])
     .then(() => done())
     .catch(() => done());
@@ -157,6 +157,10 @@ describe('Group Routes', function () {
         expect(this.res.body._id).to.exist;
         done();
       });
+      it('should return an host', done => {
+        expect(this.res.body.host).to.equal('testy');
+        done();
+      });
     });
   });
   describe('PUT /api/group/${id}/update', function (){
@@ -222,7 +226,6 @@ describe('Group Routes', function () {
       .end((err, res) => {
         if(err) return done(err);
         this.res = res;
-        console.log(res.body);
         done();
       });
     });
@@ -233,6 +236,46 @@ describe('Group Routes', function () {
     it('should not have a content', done => {
       expect(this.res.body).to.be.empty;
       done();
+    });
+  });
+
+  describe('GET /api/feed', function() {
+    before(done => {
+      chai.request(server)
+      .post('/api/create')
+      .send(group)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end(() => {});
+      chai.request(server)
+      .post('/api/create')
+      .send(test)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end(() => {
+        done();
+      });
+    });
+
+    before(done => {
+      chai.request(server)
+      .get('/api/feed')
+      .end((err, res) => {
+        this.body = res.body;
+        done();
+      });
+    });
+
+    it('should be an array of groups', () => {
+      expect(this.body).to.be.an('array');
+    });
+    it('should have an oject representing an group post', () => {
+      expect(this.body[0]).to.be.an('object');
+    });
+    it('should have a first object with a title', () => {
+      expect(this.body[0].title).to.equal('Halo 15');
     });
   });
 });
