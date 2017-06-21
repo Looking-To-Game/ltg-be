@@ -30,7 +30,6 @@ exports.update = function(req) {
   debug('#update');
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
-
   return Group.findByIdAndUpdate(req.params.id, {$set: {
     title: req.body.title,
     description: req.body.description,
@@ -49,6 +48,5 @@ exports.remove = function(req) {
   debug('#remove');
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
-
-  return Group.remove({id: req.params.id});
+  return Group.findByIdAndRemove(req.params.id);
 };
