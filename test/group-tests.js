@@ -47,7 +47,7 @@ let id;
 
 mongoose.Promise = Promise;
 
-describe('Group Routes', function () {
+describe('Group routes', function () {
   before(done => {
     chai.request(server)
     .post('/api/signup')
