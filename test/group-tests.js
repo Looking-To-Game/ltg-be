@@ -7,6 +7,7 @@ const http = require('chai-http');
 const Promise = require('bluebird');
 
 const User = require('../model/user');
+const Group = require('../model/group');
 
 const server = require('../server.js');
 chai.use(http);
@@ -61,6 +62,7 @@ describe('Group Routes', function () {
   after(done => {
     Promise.all([
       User.remove({}),
+      Group.remove({})
     ])
     .then(() => done())
     .catch(() => done());
