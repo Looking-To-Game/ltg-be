@@ -26,9 +26,6 @@ app.use(require('./lib/error-middleware'));
 
 app.use('/api', require('./router/auth-routes')(router));
 app.use('/api', require('./router/user-routes')(router));
-// app.use('/api', require('./routes/gallery-routes')(router));
-// app.use('/api', require('./routes/pic-routes')(router));
-// app.use(require('./routes/base-routes')(router));
 
 const server = module.exports = app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
