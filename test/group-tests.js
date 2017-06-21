@@ -7,6 +7,7 @@ const http = require('chai-http');
 const Promise = require('bluebird');
 
 const User = require('../model/user');
+const Group = require('../model/group');
 
 const server = require('../server.js');
 chai.use(http);
@@ -20,12 +21,22 @@ const user = {
 const group = {
   title: 'Halo 15',
   description: 'longest running video game of all time',
-  host: 'testy',
   game: 'Halo 5',
   platform: 'Xbox',
   skillLevel: 'Death',
   dedication: 'casual',
   groupSize: 2000000,
+  startTime: Date.now(),
+  endTime: Date.now(),
+};
+const test = {
+  title: 'Halo 10',
+  description: 'longest running video game of all time oh no',
+  game: 'Halo 5',
+  platform: 'Xbox',
+  skillLevel: 'Death',
+  dedication: 'casual',
+  groupSize: 5000,
   startTime: Date.now(),
   endTime: Date.now(),
 };
@@ -49,6 +60,7 @@ describe('Group Routes', function () {
   after(done => {
     Promise.all([
       User.remove({}),
+      Group.remove({}),
     ])
     .then(() => done())
     .catch(() => done());
@@ -145,19 +157,33 @@ describe('Group Routes', function () {
         expect(this.res.body._id).to.exist;
         done();
       });
+      it('should return an host', done => {
+        expect(this.res.body.host).to.equal('testy');
+        done();
+      });
     });
   });
-  describe('PUT /api/group/:_id/update', function (){
+  describe('PUT /api/group/${id}/update', function (){
     before(done => {
       chai.request(server)
-      .put(`/api/group/${id}/update`)
+      .post(`/api/create`)
+      .send(test)
       .set({
         Authorization: `Bearer ${userToken}`,
       })
-      .send({
-        title: 'Destiny 2',
-        description: 'Need competitve players for awesomeness',
+      .end((err, res) => {
+        if(err) return done(err);
+        this.id = res.body._id;
+        done();
+      });
+    });
+    before(done => {
+      chai.request(server)
+      .put(`/api/group/${this.id}/update`)
+      .set({
+        Authorization: `Bearer ${userToken}`,
       })
+      .send(group)
       .end((err, res) => {
         if(err) return done(err);
         this.res = res;
@@ -165,12 +191,11 @@ describe('Group Routes', function () {
       });
     });
     it('should keep it\'s id', done => {
-      expect(this.res._id).to.equal(id);
+      expect(this.res.body._id).to.equal(this.id);
       done();
     });
     it('should have a new title', done => {
-      console.log(this.res.body.title);
-      expect(this.res.body.title).to.equal('Destiny 2');
+      expect(this.res.body.title).to.equal('Halo 10');
       done();
     });
     it('should have a status code of 200', done => {
@@ -181,7 +206,20 @@ describe('Group Routes', function () {
   describe('DELETE /api/group/:_id/delete', function () {
     before(done => {
       chai.request(server)
-      .delete(`/api/group/${id}/delete`)
+      .post('/api/create')
+      .send(group)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        this.id = res.body._id;
+        done();
+      });
+    });
+    before(done => {
+      chai.request(server)
+      .delete(`/api/group/${this.id}/delete`)
       .set({
         Authorization: `Bearer ${userToken}`,
       })
@@ -189,15 +227,55 @@ describe('Group Routes', function () {
         if(err) return done(err);
         this.res = res;
         done();
-      }) ;
+      });
     });
     it('should return status code 204', done => {
       expect(this.res.status).to.equal(204);
       done();
     });
     it('should not have a content', done => {
-      expect(this.res.body).to.not.exist;
+      expect(this.res.body).to.be.empty;
       done();
+    });
+  });
+
+  describe('GET /api/feed', function() {
+    before(done => {
+      chai.request(server)
+      .post('/api/create')
+      .send(group)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end(() => {});
+      chai.request(server)
+      .post('/api/create')
+      .send(test)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end(() => {
+        done();
+      });
+    });
+
+    before(done => {
+      chai.request(server)
+      .get('/api/feed')
+      .end((err, res) => {
+        this.body = res.body;
+        done();
+      });
+    });
+
+    it('should be an array of groups', () => {
+      expect(this.body).to.be.an('array');
+    });
+    it('should have an oject representing an group post', () => {
+      expect(this.body[0]).to.be.an('object');
+    });
+    it('should have a first object with a title', () => {
+      expect(this.body[0].title).to.equal('Halo 15');
     });
   });
 });
