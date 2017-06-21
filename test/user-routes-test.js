@@ -22,11 +22,10 @@ const testUser = {
 };
 
 let userToken;
-let id;
 
 mongoose.Promise = Promise;
 
-describe('User routes'), function() {
+describe('User routes', function() {
   before(done => {
     chai.request(server)
     .post('/api/signup')
@@ -37,20 +36,6 @@ describe('User routes'), function() {
     });
   });
 
-  // before(done => {
-  //   chai.request(server)
-  //   .post('/api/user')
-  //   .send(testUser)
-  //   .set({
-  //     Authorization: `Bearer ${userToken}`,
-  //   })
-  //   .end((err, res) => {
-  //     if(err) return done(err);
-  //     id = res.body._id;
-  //     done();
-  //   });
-  // });
-
   after(done => {
     Promise.all([
       User.remove({}),
@@ -58,61 +43,70 @@ describe('User routes'), function() {
     .then(() => done())
     .catch(() => done());
   });
-};
 
+  before(done => {
+    chai.request(server)
+    .get('/api/user')
+    .set({
+      Authorization: `Bearer ${userToken}`,
+    })
+    .end((err, res) => {
+      if(err) return done(err);
+      this.res = res;
+      done();
+    });
+  });
 
-  /*
-  describe('GET /api/user', done => {
+  describe('GET /api/user', () => {
+
     it('should return a status code of 200', done => {
-      expect(this.req.status).to.equal(200);
+      expect(this.res.status).to.equal(200);
       done();
     });
     it('should return an object', done => {
-      expect(this.req.body).to.be.an('object');
+      expect(this.res.body).to.be.an('object');
       done();
     });
     it('should return an id', done => {
-      expect(this.req.body._id).to.exist;
+      expect(this.res.body._id).to.exist;
       done();
     });
 
-    it('should get user object properties', done => {
+    it('should get user object properties', () => {
       it('should keep it\'s id', done => {
-        expect(this.req.body._id).to.equal(this.id);
+        expect(this.res.body._id).to.equal(this.id);
         done();
       });
 
       it('should return username', done => {
-        expect(this.req.body.username).to.equal('teddy');
+        expect(this.res.body.username).to.equal('teddy');
         done();
       });
       it('should return email', done => {
-        expect(this.req.body.email).to.equal('teddy@bear.com');
+        expect(this.res.body.email).to.equal('teddy@bear.com');
         done();
       });
       it('should return password', done => {
-        expect(this.req.body.password).to.equal('bear-auth');
+        expect(this.res.body.password).to.equal('bear-auth');
         done();
       });
       it('should return steam account', done => {
-        expect(this.req.body.steam).to.equal('hot');
+        expect(this.res.body.steam).to.equal('hot');
         done();
       });
       it('should return battlenet account', done => {
-        expect(this.req.body.bn).to.equal('skynet');
+        expect(this.res.body.bn).to.equal('skynet');
         done();
       });
       it('should return xbox account', done => {
-        expect(this.req.body.xbl).to.equal('snl');
+        expect(this.res.body.xbl).to.equal('snl');
         done();
       });
       it('should return playstation account', done => {
-        expect(this.req.body.psn).to.equal('funguy');
+        expect(this.res.body.psn).to.equal('funguy');
         done();
       });
-      done();
     });
-    done();
   });
 
   // describe('PUT /api/user', done => {
@@ -121,25 +115,4 @@ describe('User routes'), function() {
   //   });
   // });
 
-}; // End of user routes.
-*/
-
-/*
-username: {type: String, required: true, unique: true},
-email: {type: String, required: true, unique: true},
-password: {type:String, required:true},
-findhash: {type: String, unique: true},
-steam: {type: String, default:null},
-bn: {type: String, default:null},
-xbl: {type: String, default:null},
-psn: {type: String, default:null},
-
-username: req.body.username,
-email: req.body.email,
-password: req.body.password,
-findhash: req.body.findhash,
-steam: req.body.steam,
-bn: req.body.bn,
-xbl: req.body.xbl,
-psn: req.body.psn,
-*/
+}); // End of user routes.
