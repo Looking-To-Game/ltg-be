@@ -23,6 +23,14 @@ module.exports = function(router) {
     .catch(err => res.status(err.status).send(err.message));
   });
 
+  router.get('/feed', (req, res) => {
+    debug('GET feed');
+
+    groupCtrl.getAll()
+    .then(feed => res.json(feed))
+    .catch(err => res.status(err.status).send(err.message));
+  });
+
   router.put('/group/:id/update', bearerAuth, (req, res) => {
     debug('PUT group');
 
