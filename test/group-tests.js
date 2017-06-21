@@ -21,7 +21,6 @@ const user = {
 const group = {
   title: 'Halo 15',
   description: 'longest running video game of all time',
-  host: 'testy',
   game: 'Halo 5',
   platform: 'Xbox',
   skillLevel: 'Death',
@@ -33,7 +32,6 @@ const group = {
 const test = {
   title: 'Halo 10',
   description: 'longest running video game of all time oh no',
-  host: 'testy',
   game: 'Halo 5',
   platform: 'Xbox',
   skillLevel: 'Death',
@@ -157,6 +155,10 @@ describe('Group Routes', function () {
       });
       it('should return an id', done => {
         expect(this.res.body._id).to.exist;
+        done();
+      });
+      it('should return an host', done => {
+        expect(this.res.body.host).to.equal('testy');
         done();
       });
     });

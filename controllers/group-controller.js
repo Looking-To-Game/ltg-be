@@ -10,6 +10,8 @@ module.exports = exports = {};
 exports.create = function(req) {
   debug('#create');
 
+  req.body.host = req.user.username;
+
   if(!req.body) return Promise.reject(createError(400, 'Content required'));
   return new Group(req.body).save();
 };
