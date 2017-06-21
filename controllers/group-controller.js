@@ -26,6 +26,15 @@ exports.getOne = function(req) {
   });
 };
 
+exports.getAll = function() {
+  debug('#getAll');
+
+  return Group.find()
+  .then(feed => {
+    return feed;
+  });
+};
+
 exports.update = function(req) {
   debug('#update');
 
