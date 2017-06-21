@@ -11,8 +11,6 @@ exports.create = function(req) {
   debug('#create');
 
   if(!req.body) return Promise.reject(createError(400, 'Content required'));
-
-  req.body.host = req.user.username;
   return new Group(req.body).save();
 };
 
@@ -24,7 +22,7 @@ exports.getOne = function(req) {
   Group.findById(req.params.id)
   .then(group => {
     if(group._id.toString() !== req.params.id) return createError(400, 'Invalid group');
-    return group;
+    return group.save();
   });
 };
 

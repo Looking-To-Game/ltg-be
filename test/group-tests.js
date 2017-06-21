@@ -40,8 +40,8 @@ describe('Group Routes', function () {
     chai.request(server)
     .post('/api/signup')
     .send(user)
-    .end(token => {
-      userToken = token;
+    .end((err, res) => {
+      userToken = res.text;
       done();
     });
   });
@@ -63,7 +63,7 @@ describe('Group Routes', function () {
       })
       .end((err, res) => {
         if(err) return done(err);
-        expect(res.status).to.equal(201);
+        expect(res.status).to.equal(200);
         done();
       });
       it('should send back object title', done => {
@@ -102,15 +102,31 @@ describe('Group Routes', function () {
         .end((err, res) => {
           if(err) return done(err);
           id = res.body._id;
-          expect(res.body._id).to.exist;
+          expect(id).to.exist;
           done();
         });
       });
     });
-    describe('Get /api/group/:id', function () {
+    describe('Get /api/group/:_id', function () {
+      before(done => {
+        chai.request(server)
+        .post('/api/create')
+        .send(group)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          id = res.body._id;
+          done();
+        });
+      });
       before(done => {
         chai.request(server)
         .get(`/api/group/${id}`)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
         .end((err, res) => {
           if(err) return done(err);
           this.res = res;
@@ -131,7 +147,7 @@ describe('Group Routes', function () {
       });
     });
   });
-  describe('PUT /api/group/:id/update', function (){
+  describe('PUT /api/group/:_id/update', function (){
     before(done => {
       chai.request(server)
       .put(`/api/group/${id}/update`)
@@ -161,7 +177,7 @@ describe('Group Routes', function () {
       done();
     });
   });
-  describe('DELETE /api/group/:id/delete', function () {
+  describe('DELETE /api/group/:_id/delete', function () {
     before(done => {
       chai.request(server)
       .delete(`/api/group/${id}/delete`)

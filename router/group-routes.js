@@ -17,7 +17,10 @@ module.exports = function(router) {
     debug('GET group');
 
     groupCtrl.getOne(req)
-    .then(group => res.json(group))
+    .then(group => {
+      console.log(group);
+      return res.json(group);
+    })
     .catch(err => res.status(err.status).send(err.message));
   });
 
