@@ -6,12 +6,16 @@ const User = require('../model/user.js');
 
 module.exports = exports = {};
 
-exports.fetchUserPage = function(user) {
-  return User.findOneById(user._id)
-  .then(user => user.comparePasswordHash(user.password))
+exports.getUser = function(req) {
+  if(!req.auth.username) return Promise.reject(createError(400, 'Invalid username'));
+
+  if(!req.auth.password) return Promise.reject(createError(400, 'Invalid password'));
+
+  return User.findOne({username: req.auth.username})
+  .then(user => user.comparePasswordHash(req.auth.password))
   .then(user => user.generateToken())
   .then(token => token)
-  .catch(() => Promise.reject(createError(401, 'Not authorized')));
+  .catch(err => createError(404, err.message));
 };
 
 // Check that user is logged in, if not route to signin.
