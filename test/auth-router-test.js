@@ -84,9 +84,9 @@ describe('User auth routes', function() {
     it('should return the user if given the correct credentials', done => {
       chai.request(server)
       .get('/api/signin')
-      .auth('')
+      .auth(user.username, user.password)
       .end((err, res) => {
-        expect(res.status).to.equal(401);
+        expect(res.status).to.equal(200);
         done();
       });
     });
