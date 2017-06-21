@@ -210,20 +210,17 @@ describe('Group Routes', function () {
       .end((err, res) => {
         if(err) return done(err);
         this.id = res.body._id;
-        done();
-      });
-    });
-    before(done => {
-      chai.request(server)
-      .delete(`/api/group/${this.id}/delete`)
-      .set({
-        Authorization: `Bearer ${userToken}`,
-      })
-      .end((err, res) => {
-        if(err) return done(err);
-        this.res = res;
-        console.log(res.body);
-        done();
+        chai.request(server)
+        .delete(`/api/group/${this.id}/delete`)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          this.res = res;
+          console.log(res.body);
+          done();
+        });
       });
     });
     it('should return status code 204', done => {
