@@ -23,7 +23,7 @@ exports.getUser = function(req) {
   // User.findOne({username: req.body})
   // User.findById(req.params.id);
   console.log('Log req.params.id', req.params.id);
-  console.log('Log req.auth.username', req.auth.username);
+  console.log('Log User', User.findOne({username: req.body}));
   // .then(user => res.json(user));
   // .catch(err => createError(404, err.message));
 };
