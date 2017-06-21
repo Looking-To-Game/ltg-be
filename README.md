@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Looking-To-Game/ltg-be/badge.svg?branch=master)](https://coveralls.io/github/Looking-To-Game/ltg-be?branch=master)
 
 ## Version
-0.1.0
+0.2.0
 
 ## Description
 Looking to game is a service that helps people form groups to play games.
@@ -23,7 +23,17 @@ https://ltg-be-production.herokuapp.com
 
 ## Installation
 ### NPM Packages
+
+`npm i`
+
 ### MongoDB
+
+```
+mongo
+show dbs
+use ltg
+```
+
 ### JSON Configuration
 ### Dependencies
 
