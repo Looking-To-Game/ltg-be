@@ -18,7 +18,7 @@ module.exports = function(router) {
 
     groupCtrl.getOne(req)
     .then(group => {
-      return res.json(group);
+      res.json(group);
     })
     .catch(err => res.status(err.status).send(err.message));
   });
@@ -33,9 +33,8 @@ module.exports = function(router) {
 
   router.delete('/group/:id/delete', bearerAuth, (req, res) => {
     debug('Delete group');
-
     groupCtrl.remove(req)
-    .then(() => res.status(204))
+    .then(() => res.status(204).send())
     .catch(err => res.status(err.status).send(err.message));
   });
 

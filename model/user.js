@@ -15,10 +15,10 @@ const userSchema = Schema({
   email: {type: String, required: true, unique: true},
   password: {type:String, required:true},
   findhash: {type: String, unique: true},
-  steam: {type: String},
-  bn: {type: String},
-  xbl: {type: String},
-  psn: {type: String},
+  steam: {type: String, default:null},
+  bn: {type: String, default:null},
+  xbl: {type: String, default:null},
+  psn: {type: String, default:null},
 });
 
 userSchema.methods.generatePasswordHash = function(password) {
