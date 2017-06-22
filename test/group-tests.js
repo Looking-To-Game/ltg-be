@@ -38,7 +38,7 @@ describe('Group Routes', function(){
     .then(() => done())
     .catch(() => done());
   });
-  describe('POST Route', function(){
+  describe('POST Route', () => {
     before(mockUser.bind(this));
 
     it('should respond with a status code 200 on good request', done => {
