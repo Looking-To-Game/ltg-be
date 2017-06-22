@@ -21,22 +21,34 @@ const testUser = {
   psn: 'funguy',
 };
 
+const newUser = {
+  username: 'teds',
+  email: 'teddys@bear.com',
+  password: 'bear-auth-new',
+  steam: 'hot-dog',
+  bn: 'skynet-is-life',
+  xbl: 'snl-fun',
+  psn: 'funguy-bear',
+};
+
 let userToken;
+// let userId;
 
 mongoose.Promise = Promise;
 
 describe('User routes', function() {
-  before(done => {
+  beforeEach(done => {
     chai.request(server)
     .post('/api/signup')
     .send(testUser)
     .end((err, res) => {
       userToken = res.text;
+      // userId = res.user.id;
       done();
     });
   });
 
-  after(done => {
+  afterEach(done => {
     Promise.all([
       User.remove({}),
     ])
@@ -44,20 +56,19 @@ describe('User routes', function() {
     .catch(() => done());
   });
 
-  before(done => {
-    chai.request(server)
-    .get('/api/user')
-    .set({
-      Authorization: `Bearer ${userToken}`,
-    })
-    .end((err, res) => {
-      if(err) return done(err);
-      this.res = res;
-      done();
-    });
-  });
-
   describe('GET /api/user', () => {
+    beforeEach(done => {
+      chai.request(server)
+      .get('/api/user')
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        this.res = res;
+        done();
+      });
+    });
 
     it('should return a status code of 200', done => {
       expect(this.res.status).to.equal(200);
@@ -109,10 +120,28 @@ describe('User routes', function() {
     });
   });
 
-  // describe('PUT /api/user', done => {
-  //   it('should update user object properties', done => {
-  //
-  //   });
-  // });
-
-}); // End of user routes.
+  describe('PUT /api/user', () => {
+    before(done => {
+      console.log('this is user', userToken);
+      chai.request(server)
+      .put('/api/user')
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .send(newUser)
+      .end((err, res) => {
+        if(err) return done(err);
+        this.res = res;
+        done();
+      });
+    });
+    it('should have a status code of 200', done => {
+      expect(this.res.status).to.equal(200);
+      done();
+    });
+    it('should have a new title', done => {
+      expect(this.res.body.username).to.equal('teds');
+      done();
+    });
+  });
+});

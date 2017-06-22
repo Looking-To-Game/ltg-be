@@ -8,8 +8,7 @@
     "test": "mocha",
     "debug": "DEBUG=ltg* nodemon server.js",
     "cover": "istanbuil cover _mocha",
-    "coveralls": "npm run cover -- --report lconvoly && cat .coverage/lcov.info | converalls",
-    "lint": ""
+    "coveralls": "npm run cover -- --report lconvoly && cat .coverage/lcov.info | converalls"
   },
   "repository": {
     "type": "git",
