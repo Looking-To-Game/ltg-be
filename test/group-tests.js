@@ -1,14 +1,14 @@
 'use strict';
 
+// require('./lib/test-env.js');
 const expect = require('chai').expect;
 const chai = require('chai');
+const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const http = require('chai-http');
-const Promise = require('bluebird');
 
 const User = require('../model/user');
 const Group = require('../model/group');
-
 const server = require('../server.js');
 chai.use(http);
 
