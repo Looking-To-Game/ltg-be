@@ -30,6 +30,7 @@ const group = {
 
 
 describe('Group Routes', function(){
+  before(mockUser.bind(this));
   after(done => {
     Promise.all([
       User.remove({}),
@@ -39,7 +40,6 @@ describe('Group Routes', function(){
     .catch(() => done());
   });
   describe('POST Route', () => {
-    before(mockUser.bind(this));
 
     it('should respond with a status code 200 on good request', done => {
       chai.request(server)
