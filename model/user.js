@@ -19,6 +19,7 @@ const userSchema = Schema({
   bn: {type: String, default:null},
   xbl: {type: String, default:null},
   psn: {type: String, default:null},
+  lol: {type: String, default:null},
 });
 
 userSchema.methods.generatePasswordHash = function(password) {
