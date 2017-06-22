@@ -12,13 +12,14 @@ const Group = require('../model/group');
 const server = require('../server.js');
 chai.use(http);
 
+// eslint-disable-next-line
 const user = {
   username: 'testy',
   password: 'supersecret',
   email: 'fake@fake.com',
 };
-console.error(user);
 
+// eslint-disable-next-line
 const group = {
   title: 'Halo 15',
   description: 'longest running video game of all time',
@@ -30,8 +31,8 @@ const group = {
   startTime: Date.now(),
   endTime: Date.now(),
 };
-console.error(group);
 
+// eslint-disable-next-line
 const test = {
   title: 'Halo 10',
   description: 'longest running video game of all time oh no',
@@ -43,7 +44,6 @@ const test = {
   startTime: Date.now(),
   endTime: Date.now(),
 };
-console.error(test);
 
 // let userToken;
 // let id;
