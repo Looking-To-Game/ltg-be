@@ -19,6 +19,7 @@ const testUser = {
   bn: 'skynet',
   xbl: 'snl',
   psn: 'funguy',
+  lol: 'league',
 };
 
 let userToken;

@@ -30,6 +30,7 @@ exports.putUser = function(req) {
     bn: req.body.bn,
     xbl: req.body.xbl,
     psn: req.body.psn,
+    lol: req.body.lol,
   }})
   .then(user => {
     user.password = null;
