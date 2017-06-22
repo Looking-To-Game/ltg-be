@@ -25,12 +25,11 @@ exports.putUser = function(req) {
   return User.findByIdAndUpdate(req.user._id, {$set: {
     username: req.body.username,
     email: req.body.email,
-    // password: req.body.password, // This would happen in reset route.
-    // findhash: req.body.findhash, // This would also happen in reset route.
     steam: req.body.steam,
     bn: req.body.bn,
     xbl: req.body.xbl,
     psn: req.body.psn,
+    lol: req.body.lol,
   }})
   .then(user => {
     user.password = null;
@@ -39,5 +38,3 @@ exports.putUser = function(req) {
   })
   .catch(err => err);
 };
-
-// DELETE user will not currently be a supported feature.

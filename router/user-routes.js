@@ -1,8 +1,11 @@
 'use strict';
 
+// const Router = require('express').Router;
 const userCtrl = require('../controllers/user-controller');
 const debug = require('debug')('ltg:user-routes');
 const bearerAuth = require('../lib/bearer-auth-middleware');
+
+// const userRouter = module.exports = Router();
 
 module.exports = function(router) {
 
