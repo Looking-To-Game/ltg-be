@@ -1,13 +1,13 @@
 {
   "name": "ltg-be",
-  "version": "0.3.0",
-  "description": "Looking to Game back-end",
+  "version": "0.3.1",
+  "description": "Looking To Game Backend",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha",
     "debug": "DEBUG=ltg* nodemon server.js",
-    "cover": "istanbuil cover _mocha",
+    "test": "mocha",
+    "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- --report lconvoly && cat .coverage/lcov.info | converalls",
     "lint": ""
   },
