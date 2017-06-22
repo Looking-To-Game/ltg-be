@@ -10,7 +10,6 @@ const http = require('chai-http');
 const User = require('../model/user');
 const Group = require('../model/group');
 const server = require('../server.js');
-const mockUser = require('./lib/user-mock.js');
 chai.use(http);
 //
 mongoose.Promise = Promise;
@@ -29,40 +28,35 @@ const group = {
 
 
 
-describe('Group Routes', function(){
-  before(mockUser.bind(this));
-  after(done => {
-    Promise.all([
-      User.remove({}),
-      Group.remove({}),
-    ])
-    .then(() => done())
-    .catch(() => done());
-  });
-  describe('POST Route', () => {
-
-    it('should respond with a status code 200 on good request', done => {
-      chai.request(server)
-      .post('/api/create')
-      .send(group)
-      .set({
-        Authorization: `Bearer ${this.tempToken}`,
-      })
-      .end((err, res) => {
-        if(err) return done(err);
-        expect(res.status).to.equal(200);
-        done();
-      });
-    });
-  });
-});
+// describe('Group Routes', function(){
+//   describe('UPOST routes', function() {
+//     it('should return a 404 on bad request', done => {
+//       chai.request(server)
+//       .post('/api')
+//       .send(user)
+//       .end((err, res) => {
+//         expect(res.status).to.equal(404);
+//         done();
+//       });
+//     });
+//     it('should return a 200 on good request', done => {
+//       chai.request(server)
+//       .post('/api/signup')
+//       .send(user)
+//       .end((err, res) => {
+//         if(err) return done(err);
+//
+//       })
+//     })
+//   });
+// });
 //
 // // eslint-disable-next-line
-// const user = {
-//   username: 'testy',
-//   password: 'supersecret',
-//   email: 'fake@fake.com',
-// };
+const user = {
+  username: 'testy',
+  password: 'supersecret',
+  email: 'fake@fake.com',
+};
 //
 // // eslint-disable-next-line
 // const test = {
@@ -77,125 +71,134 @@ describe('Group Routes', function(){
 //   endTime: Date.now(),
 // };
 //
-// // let userToken;
-// // let id;
+let userToken;
+let id;
 //
 //
-// describe('Group routes', function () {
-//
+describe('Group routes', function () {
+
 //   // TODO: Travis gives a 500 error.
-//   // before(done => {
-//   //   chai.request(server)
-//   //   .post('/api/signup')
-//   //   .send(user)
-//   //   .end((err, res) => {
-//   //     userToken = res.text;
-//   //     done();
-//   //   });
-//   // });
+  before(done => {
+    chai.request(server)
+    .post('/api/signup')
+    .send(user)
+    .end((err, res) => {
+      userToken = res.text;
+      done();
+    });
+  });
+  after(done => {
+    Promise.all([
+      User.remove({}),
+      Group.remove({}),
+    ])
+    .then(() => done())
+    .catch(() => done());
+  });
 //
 
 //
 //
 //   // TODO: Travis gives a 500 error.
-//   // describe('POST /api/create', function (){
-//   //   it('should create a new group', done => {
-//   //     chai.request(server)
-//   //     .post('/api/create')
-//   //     .send(group)
-//   //     .set({
-//   //       Authorization: `Bearer ${userToken}`,
-//   //     })
-//   //     .end((err, res) => {
-//   //       if(err) return done(err);
-//   //       expect(res.status).to.equal(200);
-//   //       done();
-//   //     });
-//   //     it('should send back object title', done => {
-//   //       chai.request(server)
-//   //       .post('/api/create')
-//   //       .send(group)
-//   //       .set({
-//   //         Authorization: `Bearer ${userToken}`,
-//   //       })
-//   //       .end((err, res) => {
-//   //         if(err) return done(err);
-//   //         expect(res.body.title).to.equal('Halo 15');
-//   //         done();
-//   //       });
-//   //     });
-//   //     it('should send back object properties', done => {
-//   //       chai.request(server)
-//   //       .post('/api/create')
-//   //       .send(group)
-//   //       .set({
-//   //         Authorization: `Bearer ${userToken}`,
-//   //       })
-//   //       .end((err, res) => {
-//   //         if(err) return done(err);
-//   //         expect(res.body.game).to.equal('Halo 5');
-//   //         done();
-//   //       });
-//   //     });
-//   //     it('should create a new group', done => {
-//   //       chai.request(server)
-//   //       .post('/api/create')
-//   //       .send(group)
-//   //       .set({
-//   //         Authorization: `Bearer ${userToken}`,
-//   //       })
-//   //       .end((err, res) => {
-//   //         if(err) return done(err);
-//   //         id = res.body._id;
-//   //         expect(id).to.exist;
-//   //         done();
-//   //       });
-//   //     });
-//   //   });
-//   //   describe('Get /api/group/:_id', function () {
-//   //     before(done => {
-//   //       chai.request(server)
-//   //       .post('/api/create')
-//   //       .send(group)
-//   //       .set({
-//   //         Authorization: `Bearer ${userToken}`,
-//   //       })
-//   //       .end((err, res) => {
-//   //         if(err) return done(err);
-//   //         id = res.body._id;
-//   //         done();
-//   //       });
-//   //     });
-//   //     before(done => {
-//   //       chai.request(server)
-//   //       .get(`/api/group/${id}`)
-//   //       .set({
-//   //         Authorization: `Bearer ${userToken}`,
-//   //       })
-//   //       .end((err, res) => {
-//   //         if(err) return done(err);
-//   //         this.res = res;
-//   //         done();
-//   //       });
-//   //     });
-//   //     it('should return a status code of 200', done => {
-//   //       expect(this.res.status).to.equal(200);
-//   //       done();
-//   //     });
-//   //     it('should return an object', done => {
-//   //       expect(this.res.body).to.be.an('object');
-//   //       done();
-//   //     });
-//   //     it('should return an id', done => {
-//   //       expect(this.res.body._id).to.exist;
-//   //       done();
-//   //     });
-//   //     it('should return an host', done => {
-//   //       expect(this.res.body.host).to.equal('testy');
-//   //       done();
-//   //     });
-//   //   });
-//   // });
+  describe('POST /api/create', function (){
+    it('should create a new group', done => {
+      chai.request(server)
+      .post('/api/create')
+      .send(group)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        expect(res.status).to.equal(200);
+        done();
+      });
+      it('should send back object title', done => {
+        chai.request(server)
+        .post('/api/create')
+        .send(group)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          expect(res.body.title).to.equal('Halo 15');
+          done();
+        });
+      });
+      it('should send back object properties', done => {
+        chai.request(server)
+        .post('/api/create')
+        .send(group)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          expect(res.body.game).to.equal('Halo 5');
+          done();
+        });
+      });
+      it('should create a new group', done => {
+        chai.request(server)
+        .post('/api/create')
+        .send(group)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          id = res.body._id;
+          expect(id).to.exist;
+          done();
+        });
+      });
+    });
+    describe('Get /api/group/:_id', function () {
+      before(done => {
+        chai.request(server)
+        .post('/api/create')
+        .send(group)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          id = res.body._id;
+          done();
+        });
+      });
+      before(done => {
+        chai.request(server)
+        .get(`/api/group/${id}`)
+        .set({
+          Authorization: `Bearer ${userToken}`,
+        })
+        .end((err, res) => {
+          if(err) return done(err);
+          this.res = res;
+          done();
+        });
+      });
+      it('should return a status code of 200', done => {
+        expect(this.res.status).to.equal(200);
+        done();
+      });
+      it('should return an object', done => {
+        expect(this.res.body).to.be.an('object');
+        done();
+      });
+      it('should return an id', done => {
+        expect(this.res.body._id).to.exist;
+        done();
+      });
+      it('should return an host', done => {
+        expect(this.res.body.host).to.equal('testy');
+        done();
+      });
+    });
+  });
+});
 //
 //   // TODO: Travis gives a 500 error.
 //   // describe('PUT /api/group/${id}/update', function (){
