@@ -1,35 +1,67 @@
-// 'use strict';
+'use strict';
+
+// require('./lib/test-env.js');
+const expect = require('chai').expect;
+const chai = require('chai');
+const Promise = require('bluebird');
+const mongoose = require('mongoose');
+const http = require('chai-http');
+
+const User = require('../model/user');
+const Group = require('../model/group');
+const server = require('../server.js');
+const mockUser = require('./lib/user-mock.js');
+chai.use(http);
 //
-// // require('./lib/test-env.js');
-// const expect = require('chai').expect;
-// const chai = require('chai');
-// const Promise = require('bluebird');
-// const mongoose = require('mongoose');
-// const http = require('chai-http');
-//
-// const User = require('../model/user');
-// const Group = require('../model/group');
-// const server = require('../server.js');
-// chai.use(http);
+mongoose.Promise = Promise;
+// // eslint-disable-next-line
+const group = {
+  title: 'Halo 15',
+  description: 'longest running video game of all time',
+  game: 'Halo 5',
+  platform: 'Xbox',
+  skillLevel: 'Death',
+  dedication: 'casual',
+  groupSize: 2000000,
+  startTime: Date.now(),
+  endTime: Date.now(),
+};
+
+
+
+describe('Group Routes', function(){
+  after(done => {
+    Promise.all([
+      User.remove({}),
+      Group.remove({}),
+    ])
+    .then(() => done())
+    .catch(() => done());
+  });
+  describe('POST Route', function(){
+    before(mockUser.bind(this));
+
+    it('should respond with a status code 200 on good request', done => {
+      chai.request(server)
+      .post('/api/create')
+      .send(group)
+      .set({
+        Authorization: `Bearer ${this.tempToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        expect(res.status).to.equal(200);
+        done();
+      });
+    });
+  });
+});
 //
 // // eslint-disable-next-line
 // const user = {
 //   username: 'testy',
 //   password: 'supersecret',
 //   email: 'fake@fake.com',
-// };
-//
-// // eslint-disable-next-line
-// const group = {
-//   title: 'Halo 15',
-//   description: 'longest running video game of all time',
-//   game: 'Halo 5',
-//   platform: 'Xbox',
-//   skillLevel: 'Death',
-//   dedication: 'casual',
-//   groupSize: 2000000,
-//   startTime: Date.now(),
-//   endTime: Date.now(),
 // };
 //
 // // eslint-disable-next-line
@@ -48,7 +80,6 @@
 // // let userToken;
 // // let id;
 //
-// mongoose.Promise = Promise;
 //
 // describe('Group routes', function () {
 //
@@ -63,14 +94,7 @@
 //   //   });
 //   // });
 //
-//   // after(done => {
-//   //   Promise.all([
-//   //     User.remove({}),
-//   //     Group.remove({}),
-//   //   ])
-//   //   .then(() => done())
-//   //   .catch(() => done());
-//   // });
+
 //
 //
 //   // TODO: Travis gives a 500 error.

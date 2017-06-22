@@ -4,20 +4,12 @@
   "description": "Looking To Game Backend",
   "main": "server.js",
   "scripts": {
-<<<<<<< HEAD
-    "start": "nodemon server.js",
-    "test": "mocha",
-    "debug": "DEBUG=ltg* nodemon server.js",
-    "cover": "istanbuil cover _mocha",
-    "coveralls": "npm run cover -- --report lconvoly && cat .coverage/lcov.info | converalls"
-=======
     "start": "node server.js",
     "start-debug": "DEBUG='ltg*' npm start",
     "debug": "DEBUG='ltg*' nodemon server.js",
     "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
     "cover": "istanbul cover _mocha",
     "test-debug": "DEBUG='ltg*' ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha"
->>>>>>> 18b6b1040f2de5461851c8847d5635d475cac778
   },
   "repository": {
     "type": "git",
