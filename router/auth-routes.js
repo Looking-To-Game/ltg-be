@@ -1,7 +1,10 @@
 'use strict';
 
+// const Router = require('express').Router;
 const userCtrl = require('../controllers/auth-controller');
 const basicAuth = require('../lib/basic-auth-middleware');
+
+// const authRouter = module.exports = Router();
 
 module.exports = function(router) {
   router.post('/signup', (req, res) => {

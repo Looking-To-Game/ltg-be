@@ -1,23 +1,23 @@
 'use strict';
 
+// require('./lib/test-env.js');
 const chai = require('chai');
 const expect = chai.expect;
+const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const http = require('chai-http');
-const Promise = require('bluebird');
 
 const User = require('../model/user.js');
-
 const server = require('../server.js');
 chai.use(http);
+
+mongoose.Promise = Promise;
 
 const user = {
   username: 'testy',
   password: 'abc123',
   email: 'fake@fake.com',
 };
-
-mongoose.Promise = Promise;
 
 describe('User auth routes', function() {
   afterEach(done => {

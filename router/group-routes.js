@@ -1,8 +1,11 @@
 'use strict';
 
+// const Router = require('express').Router;
 const groupCtrl = require('../controllers/group-controller');
 const bearerAuth = require('../lib/bearer-auth-middleware');
 const debug = require('debug')('ltg:group-routes');
+
+// const groupRouter = module.exports = Router();
 
 module.exports = function(router) {
   router.post('/create', bearerAuth, (req, res) => {

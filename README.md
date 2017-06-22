@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Looking-To-Game/ltg-be/badge.svg?branch=master)](https://coveralls.io/github/Looking-To-Game/ltg-be?branch=master)
 
 ## Version
-0.2.0
+0.3.1
 
 ## Description
 Looking to game is a service that helps people form groups to play games.
