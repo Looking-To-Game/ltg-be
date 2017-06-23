@@ -72,6 +72,7 @@ describe('Group routes', function () {
     .catch(() => done());
   });
 
+
   // TODO: Travis gives a 500 error.
   // describe('POST /api/create', function (){
   //   it('should create a new group', done => {
