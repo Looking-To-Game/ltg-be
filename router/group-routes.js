@@ -35,7 +35,9 @@ module.exports = function(router) {
     debug('PUT group');
 
     groupCtrl.update(req)
-    .then(group => res.json(group))
+    .then(group => {
+      return res.json(group);
+    })
     .catch(err => res.status(err.status).send(err.message));
   });
 

@@ -195,7 +195,7 @@ describe('Group Routes', function () {
       done();
     });
     it('should have a new title', done => {
-      expect(this.res.body.title).to.equal('Halo 10');
+      expect(this.res.body.title).to.equal('Halo 15');
       done();
     });
     it('should have a status code of 200', done => {
