@@ -46,6 +46,7 @@ module.exports = function(router) {
 
   router.delete('/group/:id/delete', bearerAuth, (req, res) => {
     debug('Delete group');
+    
     groupCtrl.remove(req)
     .then(() => res.status(204).send())
     .catch(err => res.status(err.status).send(err.message));

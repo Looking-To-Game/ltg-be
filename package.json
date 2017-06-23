@@ -3,10 +3,13 @@
   "version": "0.3.2",
   "description": "Looking To Game Backend",
   "main": "server.js",
+  "engines": {
+    "node": "6.10.2",
+    "npm": "5.0.3"
+  },
   "scripts": {
     "start": "node server.js",
     "start-debug": "DEBUG='ltg*' npm start",
-    "debug": "DEBUG='ltg*' nodemon server.js",
     "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
     "cover": "istanbul cover _mocha",
     "test-debug": "DEBUG='ltg*' ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha"
