@@ -1,6 +1,6 @@
 {
   "name": "ltg-be",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Looking To Game Backend",
   "main": "server.js",
   "engines": {
