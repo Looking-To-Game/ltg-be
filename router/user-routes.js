@@ -20,7 +20,6 @@ module.exports = function(router) {
   router.put('/user', bearerAuth, (req, res) => {
     debug('PUT user');
 
-    console.log('This fired right here', req);
     userCtrl.putUser(req)
     .then(userObject => {
       res.json(userObject);

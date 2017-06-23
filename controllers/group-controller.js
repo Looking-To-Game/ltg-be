@@ -41,7 +41,6 @@ exports.update = function(req) {
   debug('#update');
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
-  console.log('new information', req.body);
   return Group.findByIdAndUpdate(req.params.id, { $set: {
     title: req.body.title,
     description: req.body.description,

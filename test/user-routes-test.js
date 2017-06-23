@@ -136,5 +136,9 @@ describe('User routes', function() {
       expect(this.res.status).to.equal(200);
       done();
     });
+    it('should return a the new username', done => {
+      expect(this.res.body.username).to.equal('teds');
+      done();
+    });
   });
 });

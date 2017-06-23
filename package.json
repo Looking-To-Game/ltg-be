@@ -12,7 +12,8 @@
     "start-debug": "DEBUG='ltg*' npm start",
     "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
     "cover": "istanbul cover _mocha",
-    "test-debug": "DEBUG='ltg*' ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha"
+    "test-debug": "DEBUG='ltg*' ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls "
   },
   "repository": {
     "type": "git",
