@@ -21,6 +21,16 @@ const testUser = {
   psn: 'funguy',
 };
 
+const newUser = {
+  username: 'teds',
+  email: 'ted@bear.com',
+  password: 'bear-auth-new',
+  steam: 'hot-dog',
+  bn: 'skynet-is-life',
+  xbl: 'snl-fun',
+  psn: 'funguy-no',
+};
+
 let userToken;
 
 mongoose.Promise = Promise;
@@ -44,20 +54,20 @@ describe('User routes', function() {
     .catch(() => done());
   });
 
-  before(done => {
-    chai.request(server)
-    .get('/api/user')
-    .set({
-      Authorization: `Bearer ${userToken}`,
-    })
-    .end((err, res) => {
-      if(err) return done(err);
-      this.res = res;
-      done();
-    });
-  });
 
   describe('GET /api/user', () => {
+    before(done => {
+      chai.request(server)
+      .get('/api/user')
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        this.res = res;
+        done();
+      });
+    });
 
     it('should return a status code of 200', done => {
       expect(this.res.status).to.equal(200);
@@ -108,11 +118,23 @@ describe('User routes', function() {
       });
     });
   });
-
-  // describe('PUT /api/user', done => {
-  //   it('should update user object properties', done => {
-  //
-  //   });
-  // });
-
-}); // End of user routes.
+  describe('PUT /api/create', function () {
+    before(done => {
+      chai.request(server)
+      .put('/api/user')
+      .send(newUser)
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      })
+      .end((err, res) => {
+        if(err) return done(err);
+        this.res = res;
+        done();
+      });
+    });
+    it('should respond with a 201 with a good request', done => {
+      expect(this.res.status).to.equal(200);
+      done();
+    });
+  });
+});
