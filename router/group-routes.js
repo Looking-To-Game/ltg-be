@@ -38,12 +38,15 @@ module.exports = function(router) {
     debug('PUT group');
 
     groupCtrl.update(req)
-    .then(group => res.json(group))
+    .then(group => {
+      return res.json(group);
+    })
     .catch(err => res.status(err.status).send(err.message));
   });
 
   router.delete('/group/:id/delete', bearerAuth, (req, res) => {
     debug('Delete group');
+    
     groupCtrl.remove(req)
     .then(() => res.status(204).send())
     .catch(err => res.status(err.status).send(err.message));

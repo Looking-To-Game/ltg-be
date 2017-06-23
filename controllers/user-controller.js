@@ -21,9 +21,8 @@ exports.getUser = function(req) {
 // PUT request to update any updates from user on submit.
 exports.putUser = function(req) {
   debug('#putUser');
-  if(!req.user.id) return Promise.reject(createError(400, 'Bad request, user id required'));
-
-  return User.findByIdAndUpdate(req.user.id, {$set: {
+  if(!req.user._id) return Promise.reject(createError(400, 'Bad request, user id required'));
+  return User.findByIdAndUpdate(req.user._id, {$set: {
     username: req.body.username,
     email: req.body.email,
     steam: req.body.steam,

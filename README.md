@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Looking-To-Game/ltg-be/badge.svg?branch=master)](https://coveralls.io/github/Looking-To-Game/ltg-be?branch=master)
 
 ## Version
-0.3.2
+0.4.0
 
 ## Description
 Looking to game is a service that helps people form groups to play games.
@@ -41,18 +41,59 @@ In second bash window run `mongo`
 4. Enter `db.users.find()`
 5. Enter `db.users.drop()`
 
-### API
+## API
 In a web browser enter the address or URL:
 http://localhost:3000
 Add to the address above with the API routes below.
 Example:
 http://localhost:3000/api/signup
 
-1. Signup with username, email, and password:
-- POST: `/api/signup`
-2. Login with an existing username and password:
-- GET: `/api/login`
-...
+*Auth Routes*
+
+### POST /api/signup
+* Use this route to sign-up for a user account.
+* Headers required:
+  * Content-Type: application/json
+  * Required: username, email, password
+
+### GET /api/signin
+* Use this route to sign-in with an existing user account.
+* Headers required:
+  * Authorization: Basic Auth
+  * Content-Type: application/json
+
+*User Routes*
+
+### GET /api/user
+* Use this route to get information for an existing user account.
+* Headers required:
+  * Authorization: Bearer <token>
+  * Content-Type: application/json
+
+### PUT /api/user
+* Use this route to update existing user account information.
+* Headers required:
+  * Authorization: Bearer <token>
+  * Content-Type: application/json
+
+*Group Routes*
+
+### POST /api/create
+* Use this route to...
+* Headers required:
+  * Authorization: Bearer <token>
+  * Content-Type: application/json
+* Required:
+  * title: string
+  * description: string
+  * host: string
+  * game: string
+  * platform: string
+
+GET /api/group/:id
+GET /api/feed
+PUT /api/group/:id/update
+DELETE /api/group/:id/delete
 
 ### Deployed Application
 The most stable version of the backend is called production. The production backend has been deployed to Heroku at the following location:

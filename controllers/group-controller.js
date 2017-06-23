@@ -41,7 +41,8 @@ exports.update = function(req) {
   debug('#update');
 
   if(!req.params.id) return Promise.reject(createError(400, 'Group id required'));
-  return Group.findByIdAndUpdate(req.params.id, {$set: {
+  console.log('new information', req.body);
+  return Group.findByIdAndUpdate(req.params.id, { $set: {
     title: req.body.title,
     description: req.body.description,
     game: req.body.game,
@@ -51,7 +52,8 @@ exports.update = function(req) {
     groupSize: req.body.groupSize,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
-  }})
+  }}, {new: true})
+  .then(group => group)
   .catch(err => err);
 };
 
