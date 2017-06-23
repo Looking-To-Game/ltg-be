@@ -18,6 +18,17 @@ The front end can be found at the following GitHub location:
 
 https://github.com/Looking-To-Game/ltg-fe
 
+### Deployed Application
+The most stable version of the backend is called production. The production backend has been deployed to Heroku at the following location:
+
+https://ltg-be-production.herokuapp.com
+
+For use with the production API, replace http://localhost:3000 with the address or URL above.
+
+Example:
+
+https://ltg-be-production.herokuapp.com/api/signup
+
 ### Back End
 
 First follow the steps in the installation section below.
@@ -32,17 +43,6 @@ These commands can also be found in the scripts section of package.json.
 "start": "node server.js",
 "start-debug": "DEBUG='ltg*' npm start",
 ```
-
-### Deployed Application
-The most stable version of the backend is called production. The production backend has been deployed to Heroku at the following location:
-
-https://ltg-be-production.herokuapp.com
-
-For use with the production API, replace http://localhost:3000 with the address or URL above.
-
-Example:
-
-https://ltg-be-production.herokuapp.com/api/signup
 
 ### Database
 In second bash window run `mongo`
