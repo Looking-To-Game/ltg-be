@@ -38,6 +38,32 @@ describe('User auth routes', function() {
         done();
       });
     });
+    it('should throw a a 401 with no username', done => {
+      chai.request(server)
+      .post('/api/signup')
+      .send({
+        username: '',
+        password: 'abc123',
+        email: 'fake@fake.com',
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+      });
+      done();
+    });
+    it('should throw a a 401 with no password', done => {
+      chai.request(server)
+      .post('/api/signup')
+      .send({
+        username: 'abc123',
+        password: '',
+        email: 'fake@fake.com',
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe('POST tests', function() {
