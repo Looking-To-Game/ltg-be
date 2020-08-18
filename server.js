@@ -10,7 +10,7 @@ const debug = require('debug')('ltg:server');
 
 require('dotenv').load();
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.DB_URI;
 const PORT = process.env.PORT;
 
 mongoose.Promise = Promise;
